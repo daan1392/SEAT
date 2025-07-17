@@ -402,8 +402,8 @@ def nuclide2zam(nuclide, atomic_number=False, sep=""):
 
 def nuclide2za(nuclide):
     """
-    Convert ZA to string with symbol and mass, such as 92235 to
-    "U235" or 95642 to "Am242m".
+    Convert string with symbol and mass number to ZA, such as `"U235"` to
+    `92235` or `"Am242m"` to `95242`.
 
     Takes:
     ------
@@ -438,3 +438,27 @@ def get_meta_letter(m, skip_ground=False):
 
 def nuclide2element(nuclide: str, *args, **kwargs):
     return ELEMENTS[expand_zam(nuclide2zam(nuclide, *args, **kwargs))[0]]
+
+def za2element(za: int):
+    """
+    Convert ZA to element symbol.
+    
+    Parameters
+    ----------
+    zam: int
+        ZA number of the nuclide.
+        
+    Returns
+    -------
+    str
+        Element symbol corresponding to the ZA.
+
+    Examples
+    --------
+    >>> za2element(6000)
+    C
+    >>> za2element(92235)
+    U
+    """
+    z, _, _ = expand_za(za)
+    return ELEMENTS[z]

@@ -76,6 +76,42 @@ def unfold_composite(composite: dict[str, float]) -> dict[str, float]:
             for element, share in composite.items()
             for k, v in getattr(SEAT.natural, element).items()}
 
+def unfold_element_input(composite: str, floating_points: int = 9) -> dict[str, float]:
+    """
+    Unfolds a string taken from the input file to a dictionary 
+    and also prints the result so it can be copied to the input file.
+    
+    Parameters
+    ----------
+    composite : str
+        A string containing the element symbol and its abundance, e.g.:
+        '6000.03c 1.00'.
+        
+    Returns
+    -------
+    dict[str, float]
+        A dictionary with element symbols as keys and their abundances as values.
+        
+    Examples
+    --------
+    >>> unfold_element_input("6000.03c      1")
+    # Printed:
+    # 6012.03c    0.989300000
+    # 6013.03c    0.010700000
+    # Returned:
+    {'C12': 0.9893, 'C13': 0.0107}
+    """
+    za_id, abundance = composite.split()[:2]
+    za = int(za_id.split(".")[0])
+    identifier = za_id.split(".")[1]
+
+    unfolded = unfold_composite({SEAT.nuclides.za2element(za): float(abundance)})
+
+    for key, item in unfolded.items():
+        print(f"{SEAT.nuclides.nuclide2za(key)[0]}.{identifier}    {item:.9f}")
+
+    return unfolded
+
 def get_existing_xs(library: str) -> set:
     """
     Retrieves a set of nuclides which cross sections is evaluated in the given
