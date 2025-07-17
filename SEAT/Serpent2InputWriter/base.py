@@ -1,5 +1,5 @@
 import copy as cp
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 
 __author__ = "Federico Grimaldi"
@@ -317,8 +317,8 @@ class Entity:
 
     """
     name: str | int  # **NEVER** change; use self.duplicate() instead
-    comment: Comment = Comment('')
-    inline_comment: InlineComment = InlineComment('')
+    comment: Comment = field(default_factory=Comment)
+    inline_comment: InlineComment = field(default_factory=InlineComment)
     _hashable_name: None = None  # This is private for good reasons
 
     def __post_init__(self):

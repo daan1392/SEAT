@@ -6,3 +6,4 @@ __pycache__/
 tmp.txt
 debug.py
 .vscode/
+SEAT.egg-info
